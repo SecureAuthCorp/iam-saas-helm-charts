@@ -2,7 +2,7 @@ apiVersion: v2
 name: kube-acp-stack
 description: kube-acp-stack collects acp charts combined with documentation and scripts to provide easy to operate end-to-end Kubernetes cluster
 type: application
-version: 2.25.0
+version: 2.26.0
 sources:
   - https://github.com/cloudentity/acp-helm-charts
 dependencies:
@@ -19,6 +19,6 @@ dependencies:
     repository: https://charts.timescale.com
     condition: timescaledb-single.enabled
   - name: acp
-    version: "2.25.0"
+    version: "2.26.0"
     repository: https://charts.cloudentity.io
     condition: acp.enabled
