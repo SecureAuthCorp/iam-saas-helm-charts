@@ -32,7 +32,7 @@ jobs:
           echo "REGO_V6=${{ github.event.inputs.rego_v6 }}" >> $GITHUB_ENV
           echo "TAG=${{ github.event.inputs.tag }}" >> $GITHUB_ENV
       - name: Docker Registry Login
-        run: echo "${{ secrets.PUBLIC_DOCKER_CLOUDENTITY_REPO_DEV_PASSWORD }}" | docker login docker.secureauth.com -u "${{ secrets.PUBLIC_DOCKER_CLOUDENTITY_REPO_DEV_USERNAME }}" --password-stdin
+        run: echo "${{ secrets.ARTIFACTORY_USERNAME }}" | docker login docker.secureauth.com -u "${{ secrets.ARTIFACTORY_PASSWORD }}" --password-stdin
       - name: Update Helm Values File
         shell: bash
         run: |
