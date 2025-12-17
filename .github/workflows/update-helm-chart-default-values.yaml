@@ -44,4 +44,4 @@ jobs:
           commit-message: "Update default values"
           body-path: .github/HELM_VALUE_UPDATE_PULL_REQUEST_TEMPLATE.md
           labels: "auto-upgrade"
-          team-reviewers: cloudentity/devops
+          team-reviewers: SecureAuthCorp/team-devops-write
