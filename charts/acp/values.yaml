@@ -655,6 +655,23 @@ faas:
         ##
         package_json: {}
 
+      v7:
+        ## Enables environment
+        ##
+        enabled: false
+
+        ## Environment image
+        ##
+        image: docker.secureauth.com/node-env:v7-20251217-082424-636a89ee
+
+        ## Environment expiration date
+        ##
+        valid_until: ""
+
+        ## Environment packages
+        ##
+        package_json: {}
+
     rego:
       v6:
         ## Enables environment
