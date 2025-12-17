@@ -11,6 +11,10 @@ on:
         description: 'Update Node v6 (true/false)'
         required: true
         default: 'false'
+      node_v7:
+        description: 'Update Node v7 (true/false)'
+        required: true
+        default: 'false'
       rego_v6:
         description: 'Update Rego v6 (true/false)'
         required: true
@@ -29,6 +33,7 @@ jobs:
         run: |
           echo "NODE_V5=${{ github.event.inputs.node_v5 }}" >> $GITHUB_ENV
           echo "NODE_V6=${{ github.event.inputs.node_v6 }}" >> $GITHUB_ENV
+          echo "NODE_V7=${{ github.event.inputs.node_v7 }}" >> $GITHUB_ENV
           echo "REGO_V6=${{ github.event.inputs.rego_v6 }}" >> $GITHUB_ENV
           echo "TAG=${{ github.event.inputs.tag }}" >> $GITHUB_ENV
       - name: Docker Registry Login
@@ -36,7 +41,7 @@ jobs:
       - name: Update Helm Values File
         shell: bash
         run: |
-          environments=("NODE_V5" "NODE_V6" "REGO_V6")
+          environments=("NODE_V5" "NODE_V6" "NODE_V7" "REGO_V6")
           for env in "${environments[@]}"; do
             update=$(eval echo "\$$env")
             if [ "$update" = "true" ]; then

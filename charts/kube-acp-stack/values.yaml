@@ -23,6 +23,11 @@ cockroachdb:
 redis-cluster:
   enabled: true
   fullnameOverride: redis-cluster
+  global:
+    security:
+      allowInsecureImages: true
+  image:
+    repository: bitnamilegacy/redis-cluster
   cluster:
     nodes: 3
     replicas: 0
