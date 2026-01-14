@@ -87,13 +87,13 @@ docker:
 helm-lint:
 	helm lint ./charts/${CHART}
 
-lint-kubeeval: docker
+lint-kubeconform: docker
 	docker run \
 		--volume $(shell pwd)/charts/${CHART}:/data \
 		--rm \
 		cloudentity/helm-tools \
 		"helm template 'lint' /data |\
-		kubeval --skip-kinds AuthorizationPolicy,EnvoyFilter --additional-schema-locations https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master"
+		kubeconform -ignore-missing-schemas"
 
 helm-install:
 	helm upgrade ${CHART} ./charts/${CHART} \
