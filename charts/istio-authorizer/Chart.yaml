@@ -2,5 +2,5 @@ apiVersion: v2
 name: istio-authorizer
 description: A Helm chart for istio-authorizer
 type: application
-version: 2.26.0
-appVersion: "2.26.0"
+version: 2.27.0
+appVersion: "2.27.0"
