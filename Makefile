@@ -13,7 +13,7 @@ HELM_CHARTS = acp-cd,acp,istio-authorizer,kube-acp-stack
 ISTIO_VERSION ?= 1.26.0
 
 # ACP helm chart version
-ACP_VERSION ?= 2.26.0
+ACP_VERSION ?= 2.27.0
 export ACP_VERSION
 
 ### TARGETS ###
@@ -87,13 +87,13 @@ docker:
 helm-lint:
 	helm lint ./charts/${CHART}
 
-lint-kubeeval: docker
+lint-kubeconform: docker
 	docker run \
 		--volume $(shell pwd)/charts/${CHART}:/data \
 		--rm \
 		cloudentity/helm-tools \
 		"helm template 'lint' /data |\
-		kubeval --skip-kinds AuthorizationPolicy,EnvoyFilter --additional-schema-locations https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master"
+		kubeconform -ignore-missing-schemas"
 
 helm-install:
 	helm upgrade ${CHART} ./charts/${CHART} \
