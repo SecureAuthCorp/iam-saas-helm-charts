@@ -12,7 +12,9 @@ metadata:
     {{- include "acp.labels" $ | nindent 4 }}
 spec:
   scaleTargetRef:
-    deployment: {{ include "acp.fullname" $ }}-faas-{{ $envType }}-{{ $version }}
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "acp.fullname" $ }}-faas-{{ $envType }}-{{ $version }}
     service: {{ include "acp.fullname" $ }}-faas-{{ $envType }}-{{ $version }}
     port: {{ default $.Values.faas.environments.settings.ports.http (($details.ports).http) }}
   replicas:

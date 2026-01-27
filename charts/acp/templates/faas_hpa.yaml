@@ -24,7 +24,7 @@ spec:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: {{$.Values.faas.environments.autoscaling.hpa.targetCPUUtilizationPercentage }}
+        averageUtilization: {{ $.Values.faas.environments.autoscaling.hpa.targetCPUUtilizationPercentage }}
   {{- end }}
   {{- if $.Values.faas.environments.autoscaling.hpa.targetMemoryUtilizationPercentage }}
   - type: Resource
@@ -32,14 +32,14 @@ spec:
       name: memory
       target:
         type: Utilization
-        averageUtilization: {{$.Values.faas.environments.autoscaling.hpa.targetMemoryUtilizationPercentage }}
+        averageUtilization: {{ $.Values.faas.environments.autoscaling.hpa.targetMemoryUtilizationPercentage }}
   {{- end }}
   {{- with $.Values.faas.environments.autoscaling.hpa.behavior }}
   behavior:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+  {{- end }}
 ---
-{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
