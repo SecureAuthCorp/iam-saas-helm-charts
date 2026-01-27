@@ -621,27 +621,10 @@ faas:
 
   environments:
     node:
-      v5:
-        ## Enables environment
-        ##
-        enabled: true
-
-        ## Environment image
-        ##
-        image: docker.secureauth.com/node-env:v5-20250722-111404-8732acda
-
-        ## Environment expiration date
-        ##
-        valid_until: ""
-
-        ## Environment packages
-        ##
-        package_json: {}
-
       v6:
         ## Enables environment
         ##
-        enabled: false
+        enabled: true
 
         ## Environment image
         ##

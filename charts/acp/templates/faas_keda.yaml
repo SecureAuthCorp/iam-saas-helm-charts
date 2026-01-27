@@ -1,4 +1,4 @@
-{{- if and .Values.faas.enabled .Values.faas.environments.autoscaling.keda.enabled (not .Values.faas.environments.autoscaling.hpa.enabled) (or (eq .Values.faas.provider "docker") (eq .Values.faas.provider "hybrid")) }}
+{{- if and .Values.faas.enabled .Values.faas.environments.autoscaling.keda.enabled (or (eq .Values.faas.provider "docker") (eq .Values.faas.provider "hybrid")) }}
 {{- range $envType, $envConfigs := .Values.faas.environments }}
 {{- if or (eq $envType "node") (eq $envType "rego") }}
 {{- range $version, $details := $envConfigs }}
