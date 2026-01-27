@@ -1,4 +1,4 @@
-{{- if and .Values.faas.enabled (or .Values.faas.environments.autoscaling.hpa.enabled .Values.faas.environments.autoscaling.keda.enabled) (or (eq .Values.faas.provider "docker") (eq .Values.faas.provider "hybrid")) }}
+{{- if and .Values.faas.enabled .Values.faas.environments.autoscaling.hpa.enabled (not .Values.faas.environments.autoscaling.keda.enabled) (or (eq .Values.faas.provider "docker") (eq .Values.faas.provider "hybrid")) }}
 {{- range $envType, $envConfigs := .Values.faas.environments }}
 {{- if or (eq $envType "node") (eq $envType "rego") }}
 {{- range $version, $details := $envConfigs }}
@@ -15,14 +15,8 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ include "acp.fullname" $ }}-faas-{{ $envType }}-{{ $version }}
-  {{- if $.Values.faas.environments.autoscaling.keda.enabled }}
-  minReplicas: {{ $.Values.faas.environments.autoscaling.keda.minReplicas }}
-  maxReplicas: {{ $.Values.faas.environments.autoscaling.keda.maxReplicas }}
-  {{- else }}
   minReplicas: {{ $.Values.faas.environments.autoscaling.hpa.minReplicas }}
   maxReplicas: {{ $.Values.faas.environments.autoscaling.hpa.maxReplicas }}
-  {{- end }}
-  {{- if not $.Values.faas.environments.autoscaling.keda.enabled }}
   metrics:
   {{- if $.Values.faas.environments.autoscaling.hpa.targetCPUUtilizationPercentage }}
   - type: Resource
@@ -46,7 +40,6 @@ spec:
   {{- end }}
   {{- end }}
 ---
-{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
