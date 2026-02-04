@@ -645,7 +645,7 @@ faas:
 
         ## Environment image
         ##
-        image: docker.secureauth.com/node-env:v7-20251217-082424-636a89ee
+        image: docker.secureauth.com/node-env:v7-20260204-084116-ac7658c7
 
         ## Environment expiration date
         ##
