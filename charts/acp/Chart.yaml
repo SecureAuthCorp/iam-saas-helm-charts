@@ -3,4 +3,4 @@ name: acp
 description: Cloudentity Authorization Control Plane
 type: application
 version: 2.27.1
-appVersion: "2.27.0"
+appVersion: "2.27.1"
