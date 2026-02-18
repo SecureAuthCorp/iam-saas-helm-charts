@@ -628,7 +628,7 @@ faas:
 
         ## Environment image
         ##
-        image: docker.secureauth.com/node-env:v6-20250722-111404-8732acda
+        image: docker.secureauth.com/node-env:v6-20260218-141721-4b0fccf6
 
         ## Environment expiration date
         ##
@@ -645,7 +645,7 @@ faas:
 
         ## Environment image
         ##
-        image: docker.secureauth.com/node-env:v7-20251217-082424-636a89ee
+        image: docker.secureauth.com/node-env:v7-20260218-141721-4b0fccf6
 
         ## Environment expiration date
         ##
@@ -663,7 +663,7 @@ faas:
 
         ## Environment image
         ##
-        image: docker.secureauth.com/rego-env:v6-20250714-134245-a5602499
+        image: docker.secureauth.com/rego-env:v6-20260218-141721-4b0fccf6
 
         ## Environment expiration date
         ##

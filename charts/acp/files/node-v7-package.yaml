@@ -2,7 +2,7 @@ engines:
   node: v24
 dependencies:
   '@authzed/authzed-node': 1.6.1
-  axios: 1.13.2
+  axios: 1.13.5
   jsonwebtoken: 9.0.3
-  lodash: 4.17.21
+  lodash: 4.17.23
   uuid: 13.0.0
