@@ -1,90 +1,70 @@
-name: Publish
+name: Build & Publish Helm Chart
+
 on:
   push:
     branches:
-      - "master"
+      - master
     paths:
       - "**/Chart.yaml"
-  pull_request:
 
 jobs:
   acp:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Helm package charts/acp
-        run: helm package charts/acp
-
-      - uses: jfrog/setup-jfrog-cli@v1
-        env:
-          JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
-
-      - name: Publish
-        run: jfrog rt u *.tgz acp-helm-charts
+      - name: Publish ACP Chart
+        uses: SecureAuthCorp/github-actions/helm/helm-chart-publish@main
+        with:
+          chart-path: charts/acp
+          jf-token: ${{ secrets.ARTIFACTORY_PASSWORD }}
 
   acp-cd:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Helm package charts/acp-cd
-        run: helm package charts/acp-cd
-
-      - uses: jfrog/setup-jfrog-cli@v1
-        env:
-          JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
-
-      - name: Publish
-        run: jfrog rt u *.tgz acp-helm-charts
+      - name: Publish ACP CD Chart
+        uses: SecureAuthCorp/github-actions/helm/helm-chart-publish@main
+        with:
+          chart-path: charts/acp-cd
+          jf-token: ${{ secrets.ARTIFACTORY_PASSWORD }}
 
   kube-acp-stack:
     needs: acp
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Helm package charts/kube-acp-stack
-        run: helm package -u charts/kube-acp-stack
-
-      - uses: jfrog/setup-jfrog-cli@v1
-        env:
-          JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
-
-      - name: Publish
-        run: jfrog rt u *.tgz acp-helm-charts
+      - name: Publish Kube ACP Stack Chart
+        uses: SecureAuthCorp/github-actions/helm/helm-chart-publish@main
+        with:
+          chart-path: charts/kube-acp-stack
+          jf-token: ${{ secrets.ARTIFACTORY_PASSWORD }}
 
   openbanking:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Helm package charts/openbanking
-        run: helm package charts/openbanking
-
-      - uses: jfrog/setup-jfrog-cli@v1
-        env:
-          JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
-
-      - name: Publish
-        run: jfrog rt u *.tgz acp-helm-charts
+      - name: Publish OpenBanking Chart
+        uses: SecureAuthCorp/github-actions/helm/helm-chart-publish@main
+        with:
+          chart-path: charts/openbanking
+          jf-token: ${{ secrets.ARTIFACTORY_PASSWORD }}
 
   istio-authorizer:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Helm package charts/istio-authorizer
-        run: helm package charts/istio-authorizer
-
-      - uses: jfrog/setup-jfrog-cli@v1
-        env:
-          JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
-
-      - name: Publish
-        run: jfrog rt u *.tgz acp-helm-charts
+      - name: Publish Istio Authorizer Chart
+        uses: SecureAuthCorp/github-actions/helm/helm-chart-publish@main
+        with:
+          chart-path: charts/istio-authorizer
+          jf-token: ${{ secrets. ARTIFACTORY_PASSWORD }}
