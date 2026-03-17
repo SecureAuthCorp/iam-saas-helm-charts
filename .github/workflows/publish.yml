@@ -3,7 +3,7 @@ name: Build & Publish Helm Chart
 on:
   push:
     branches:
-      - master
+      - ocihelmchart
     paths:
       - "**/Chart.yaml"
 
