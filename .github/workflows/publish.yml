@@ -33,8 +33,8 @@ jobs:
           jf-token: ${{ secrets.ARTIFACTORY_PASSWORD }}
 
   kube-acp-stack:
-    needs: acp
     runs-on: ubuntu-latest
+    needs: acp
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -67,4 +67,4 @@ jobs:
         uses: SecureAuthCorp/github-actions/helm/helm-chart-publish@main
         with:
           chart-path: charts/istio-authorizer
-          jf-token: ${{ secrets. ARTIFACTORY_PASSWORD }}
+          jf-token: ${{ secrets.ARTIFACTORY_PASSWORD }}
