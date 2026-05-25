@@ -1,7 +1,7 @@
 engines:
   node: v20
 dependencies:
-  '@opentelemetry/api': 1.9.0
+  '@opentelemetry/api': 1.9.1
   '@opentelemetry/context-async-hooks': 1.25.1
   '@opentelemetry/core': 1.25.1
   '@opentelemetry/exporter-trace-otlp-proto': 0.52.1
@@ -35,12 +35,12 @@ dependencies:
   mysql: 2.18.1
   mz: 2.7.0
   node-fetch: 3.3.2
-  qs: 6.14.2
+  qs: 6.15.2
   ramda: 0.30.1
   rxjs: 7.8.2
   uglify-js: 3.19.3
   underscore: 1.13.8
   uuid: 11.1.1
   validator: 13.15.35
-  ws: 8.20.1
+  ws: 8.21.0
   xml2js: 0.6.2
