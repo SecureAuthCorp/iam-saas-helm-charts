@@ -19,6 +19,6 @@ dependencies:
     repository: https://charts.timescale.com
     condition: timescaledb-single.enabled
   - name: acp
-    version: "2.27.1"
+    version: "2.27.2"
     repository: https://charts.cloudentity.io
     condition: acp.enabled
