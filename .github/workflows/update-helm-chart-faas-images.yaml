@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
       - name: Set Environment Variables
         run: |
           echo "NODE_V5=${{ github.event.inputs.node_v5 }}" >> $GITHUB_ENV
@@ -57,7 +57,7 @@ jobs:
             fi
           done
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@4e1beaa7521e8b457b572c090b25bd3db56bf1c5 # v5.0.3
         with:
           token: ${{ secrets.GH_SERVICE_ACCOUNT_DEVOPS_2_PAT1 }}
           branch: "feature/update-faas-images"

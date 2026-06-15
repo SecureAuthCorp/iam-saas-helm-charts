@@ -12,12 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
 
       - name: Helm package charts/acp
         run: helm package charts/acp
 
-      - uses: jfrog/setup-jfrog-cli@v1
+      - uses: jfrog/setup-jfrog-cli@686845529f661c9afbbee4547baa1f6d2d7ce5e0 # v1.2.1
         env:
           JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
 
@@ -28,12 +28,12 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
 
       - name: Helm package charts/acp-cd
         run: helm package charts/acp-cd
 
-      - uses: jfrog/setup-jfrog-cli@v1
+      - uses: jfrog/setup-jfrog-cli@686845529f661c9afbbee4547baa1f6d2d7ce5e0 # v1.2.1
         env:
           JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
 
@@ -45,12 +45,12 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
 
       - name: Helm package charts/kube-acp-stack
         run: helm package -u charts/kube-acp-stack
 
-      - uses: jfrog/setup-jfrog-cli@v1
+      - uses: jfrog/setup-jfrog-cli@686845529f661c9afbbee4547baa1f6d2d7ce5e0 # v1.2.1
         env:
           JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
 
@@ -61,12 +61,12 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
 
       - name: Helm package charts/openbanking
         run: helm package charts/openbanking
 
-      - uses: jfrog/setup-jfrog-cli@v1
+      - uses: jfrog/setup-jfrog-cli@686845529f661c9afbbee4547baa1f6d2d7ce5e0 # v1.2.1
         env:
           JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
 
@@ -77,12 +77,12 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
 
       - name: Helm package charts/istio-authorizer
         run: helm package charts/istio-authorizer
 
-      - uses: jfrog/setup-jfrog-cli@v1
+      - uses: jfrog/setup-jfrog-cli@686845529f661c9afbbee4547baa1f6d2d7ce5e0 # v1.2.1
         env:
           JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
 
