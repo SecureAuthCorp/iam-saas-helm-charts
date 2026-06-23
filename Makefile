@@ -128,7 +128,7 @@ debug:
 	-kubectl logs daemonset/kube-proxy --namespace kube-system
 	-kubectl logs deploy/coredns --namespace kube-system
 	-kubectl logs deploy/local-path-provisioner --namespace local-path-storage
-	-kubectl logs deploy/${CHART} --namespace ${NAMESPACE}
+	-kubectl logs --selector app.kubernetes.io/name=${CHART} --namespace ${NAMESPACE}
 	-kubectl describe pod --selector app.kubernetes.io/name=${CHART} --namespace ${NAMESPACE}
 
 check-kube-apis:
