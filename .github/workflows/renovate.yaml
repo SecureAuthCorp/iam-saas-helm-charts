@@ -13,17 +13,18 @@ on:
   schedule:
     - cron: "0 21 * * 0"
 
-# This repo is public, so it cannot call the private SecureAuthCorp/github-actions
-# reusable Renovate workflow. Renovate runs self-hosted here instead, using the
-# DevOps service-account PAT so the dependency PRs trigger the chart test workflows.
+# Public repo: it can't call the private shared Renovate workflow, so run it self-hosted.
 jobs:
   renovate:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@eb932558ad942cccfd8211cf535f17ff183a9f74 # v46.1.9
         with:
-          token: ${{ secrets.GH_SERVICE_ACCOUNT_DEVOPS_2_PAT1 }}
+          token: ${{ secrets.GITHUB_TOKEN }}
         env:
           RENOVATE_PLATFORM: github
           RENOVATE_AUTODISCOVER: "false"
