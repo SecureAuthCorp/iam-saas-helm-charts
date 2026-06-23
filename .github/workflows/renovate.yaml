@@ -13,10 +13,22 @@ on:
   schedule:
     - cron: "0 21 * * 0"
 
+# Public repo: it can't call the private shared Renovate workflow, so run it self-hosted.
 jobs:
   renovate:
-    uses: SecureAuthCorp/github-actions/.github/workflows/renovate.yaml@main
-    with:
-      dryRun: ${{ inputs.dryRun }}
-      logLevel: ${{ inputs.logLevel }}
-    secrets: inherit
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Self-hosted Renovate
+        uses: renovatebot/github-action@eb932558ad942cccfd8211cf535f17ff183a9f74 # v46.1.9
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          RENOVATE_PLATFORM: github
+          RENOVATE_AUTODISCOVER: "false"
+          RENOVATE_REPOSITORIES: ${{ github.repository }}
+          RENOVATE_DRY_RUN: ${{ inputs.dryRun }}
+          RENOVATE_PRINT_CONFIG: "true"
+          LOG_LEVEL: ${{ inputs.logLevel }}
