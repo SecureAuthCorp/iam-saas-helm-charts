@@ -1,0 +1,22 @@
+name: Renovate
+on:
+  workflow_dispatch:
+    inputs:
+      dryRun:
+        description: Dry Run
+        default: "null"
+        required: false
+      logLevel:
+        description: Log Level
+        default: info
+        required: false
+  schedule:
+    - cron: "0 21 * * 0"
+
+jobs:
+  renovate:
+    uses: SecureAuthCorp/github-actions/.github/workflows/renovate.yaml@main
+    with:
+      dryRun: ${{ inputs.dryRun }}
+      logLevel: ${{ inputs.logLevel }}
+    secrets: inherit

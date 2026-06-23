@@ -1,0 +1,47 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":disableRateLimiting"
+  ],
+  "timezone": "Etc/UTC",
+  "labels": ["dependencies", "renovate"],
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "github actions (minor/patch)"
+    },
+    {
+      "matchManagers": ["helmv3"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "helm chart dependencies (minor/patch)"
+    },
+    {
+      "description": "acp chart/image version is driven by the release-branch workflow (make bump-acp-version), not Renovate.",
+      "matchPackageNames": ["acp"],
+      "enabled": false
+    }
+  ],
+  "customManagers": [
+    {
+      "description": "pluto release baked into the root Dockerfile. Tags are vX.Y.Z; the ARG stores X.Y.Z, so strip the leading v.",
+      "customType": "regex",
+      "fileMatch": ["^Dockerfile$"],
+      "matchStrings": ["ARG PLUTO_VERSION=(?<currentValue>.+)"],
+      "depNameTemplate": "FairwindsOps/pluto",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.+)$"
+    },
+    {
+      "description": "kubeconform release baked into the root Dockerfile. The ARG stores the vX.Y.Z tag verbatim.",
+      "customType": "regex",
+      "fileMatch": ["^Dockerfile$"],
+      "matchStrings": ["ARG KUBECONFORM_VERSION=(?<currentValue>.+)"],
+      "depNameTemplate": "yannh/kubeconform",
+      "datasourceTemplate": "github-releases"
+    }
+  ]
+}
