@@ -22,11 +22,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
         with:
           token: ${{ secrets.CLOUDENTITY_CI_TOKEN }}
       - name: Set key & value
-        uses: mikefarah/yq@v4.34.1
+        uses: mikefarah/yq@5ef537f3fd1a9437aa3ee44c32c6459a126efdc4 # v4.34.1
         with:
           cmd: yq '${{ inputs.key }} = "${{ inputs.value }}"' charts/${{ inputs.chart }}/values.yaml > charts/${{ inputs.chart }}/values-updated.yaml
       - name: Keep empty lines
@@ -34,7 +34,7 @@ jobs:
           diff -U0 -w -b --ignore-blank-lines charts/${{ inputs.chart }}/values.yaml charts/${{ inputs.chart }}/values-updated.yaml > charts/${{ inputs.chart }}/values.yaml.diff || true
           patch charts/${{ inputs.chart }}/values.yaml < charts/${{ inputs.chart }}/values.yaml.diff
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@4e1beaa7521e8b457b572c090b25bd3db56bf1c5 # v5.0.3
         with:
           token: ${{ secrets.GH_SERVICE_ACCOUNT_DEVOPS_2_PAT1 }}
           branch: "feature/update-${{ inputs.chart }}-${{ inputs.key }}"
