@@ -1,6 +1,6 @@
 FROM alpine/helm:latest
 
-ARG PLUTO_VERSION=5.4.0
+ARG PLUTO_VERSION=5.24.0
 ARG KUBECONFORM_VERSION=v0.7.0
 
 RUN wget -q https://github.com/FairwindsOps/pluto/releases/download/v${PLUTO_VERSION}/pluto_${PLUTO_VERSION}_linux_amd64.tar.gz && \
