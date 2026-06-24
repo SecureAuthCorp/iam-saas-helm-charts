@@ -13,7 +13,7 @@ HELM_CHARTS = acp-cd,acp,istio-authorizer,kube-acp-stack
 ISTIO_VERSION ?= 1.26.0
 
 # ACP helm chart version
-ACP_VERSION ?= 2.27.0
+ACP_VERSION ?= 2.28.0
 export ACP_VERSION
 
 ### TARGETS ###
@@ -128,7 +128,7 @@ debug:
 	-kubectl logs daemonset/kube-proxy --namespace kube-system
 	-kubectl logs deploy/coredns --namespace kube-system
 	-kubectl logs deploy/local-path-provisioner --namespace local-path-storage
-	-kubectl logs deploy/${CHART} --namespace ${NAMESPACE}
+	-kubectl logs --selector app.kubernetes.io/name=${CHART} --namespace ${NAMESPACE}
 	-kubectl describe pod --selector app.kubernetes.io/name=${CHART} --namespace ${NAMESPACE}
 
 check-kube-apis:
