@@ -11,7 +11,7 @@ dependencies:
     repository: https://charts.cockroachdb.com
     condition: cockroachdb.enabled
   - name: redis-cluster
-    version: "11.5.4"
+    version: "13.0.4"
     repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
     condition: redis-cluster.enabled
   - name: timescaledb-single
