@@ -6,6 +6,7 @@ on:
     paths:
       - "**/Chart.yaml"
   pull_request:
+  workflow_dispatch:
 
 jobs:
   acp:
