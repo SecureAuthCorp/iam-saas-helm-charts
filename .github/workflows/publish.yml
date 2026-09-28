@@ -11,7 +11,7 @@ on:
 jobs:
   acp:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
 
@@ -27,7 +27,7 @@ jobs:
 
   acp-cd:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
 
@@ -44,7 +44,7 @@ jobs:
   kube-acp-stack:
     needs: acp
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
 
@@ -60,7 +60,7 @@ jobs:
 
   openbanking:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
 
@@ -76,7 +76,7 @@ jobs:
 
   istio-authorizer:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
 
