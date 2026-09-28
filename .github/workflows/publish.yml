@@ -17,12 +17,12 @@ jobs:
       - name: Helm package charts/acp
         run: helm package charts/acp
 
-      - uses: jfrog/setup-jfrog-cli@686845529f661c9afbbee4547baa1f6d2d7ce5e0 # v1.2.1
+      - uses: jfrog/setup-jfrog-cli@deda456d982fc5e9a7a020b63eb0d2968aedd33e # v5
         env:
-          JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
+          JF_ENV_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
 
       - name: Publish
-        run: jfrog rt u *.tgz acp-helm-charts
+        run: jf rt u *.tgz acp-helm-charts
 
   acp-cd:
     runs-on: ubuntu-latest
@@ -33,12 +33,12 @@ jobs:
       - name: Helm package charts/acp-cd
         run: helm package charts/acp-cd
 
-      - uses: jfrog/setup-jfrog-cli@686845529f661c9afbbee4547baa1f6d2d7ce5e0 # v1.2.1
+      - uses: jfrog/setup-jfrog-cli@deda456d982fc5e9a7a020b63eb0d2968aedd33e # v5
         env:
-          JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
+          JF_ENV_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
 
       - name: Publish
-        run: jfrog rt u *.tgz acp-helm-charts
+        run: jf rt u *.tgz acp-helm-charts
 
   kube-acp-stack:
     needs: acp
@@ -50,12 +50,12 @@ jobs:
       - name: Helm package charts/kube-acp-stack
         run: helm package -u charts/kube-acp-stack
 
-      - uses: jfrog/setup-jfrog-cli@686845529f661c9afbbee4547baa1f6d2d7ce5e0 # v1.2.1
+      - uses: jfrog/setup-jfrog-cli@deda456d982fc5e9a7a020b63eb0d2968aedd33e # v5
         env:
-          JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
+          JF_ENV_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
 
       - name: Publish
-        run: jfrog rt u *.tgz acp-helm-charts
+        run: jf rt u *.tgz acp-helm-charts
 
   openbanking:
     runs-on: ubuntu-latest
@@ -66,12 +66,12 @@ jobs:
       - name: Helm package charts/openbanking
         run: helm package charts/openbanking
 
-      - uses: jfrog/setup-jfrog-cli@686845529f661c9afbbee4547baa1f6d2d7ce5e0 # v1.2.1
+      - uses: jfrog/setup-jfrog-cli@deda456d982fc5e9a7a020b63eb0d2968aedd33e # v5
         env:
-          JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
+          JF_ENV_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
 
       - name: Publish
-        run: jfrog rt u *.tgz acp-helm-charts
+        run: jf rt u *.tgz acp-helm-charts
 
   istio-authorizer:
     runs-on: ubuntu-latest
@@ -82,9 +82,9 @@ jobs:
       - name: Helm package charts/istio-authorizer
         run: helm package charts/istio-authorizer
 
-      - uses: jfrog/setup-jfrog-cli@686845529f661c9afbbee4547baa1f6d2d7ce5e0 # v1.2.1
+      - uses: jfrog/setup-jfrog-cli@deda456d982fc5e9a7a020b63eb0d2968aedd33e # v5
         env:
-          JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
+          JF_ENV_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
 
       - name: Publish
-        run: jfrog rt u *.tgz acp-helm-charts
+        run: jf rt u *.tgz acp-helm-charts
