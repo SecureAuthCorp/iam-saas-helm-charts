@@ -867,13 +867,23 @@ faas:
     ## If not set and create is true, a name is generated using the fullname template
     # name: ""
 
+    ## Mount the service account token into FaaS pods. Rendered on the service account and the pod spec only when set.
+    ##
+    # automountServiceAccountToken: false
+
   ## Define NetworkPolicy Egress rules for FaaS deployment
+  ## The except list covers the cluster service CIDR and link-local addresses, so DNS must be allowed through extraEgress
   ##
   networkPolicy:
-    create: true
+    create: false
     ipBlock:
       cidr: 0.0.0.0/0
       except:
         - 10.0.0.0/8
+        - 172.16.0.0/12
         - 192.168.0.0/16
-        - 172.16.0.0/20
+        - 169.254.0.0/16
+
+    ## Additional egress rules appended after the ipBlock rule
+    ##
+    extraEgress: []
