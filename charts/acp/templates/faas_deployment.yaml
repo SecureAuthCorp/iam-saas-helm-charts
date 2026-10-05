@@ -31,6 +31,9 @@ spec:
         {{- toYaml $actualPodAnnotations | nindent 8 }}
     spec:
       serviceAccountName: {{ default (include "faas.serviceAccountName" $ ) $.Values.faas.serviceAccount.name }}
+      {{- if hasKey $.Values.faas.serviceAccount "automountServiceAccountToken" }}
+      automountServiceAccountToken: {{ $.Values.faas.serviceAccount.automountServiceAccountToken }}
+      {{- end }}
       securityContext:
         {{- toYaml $.Values.faas.environments.settings.podSecurityContext | nindent 8 }}
       {{- with $.Values.faas.environments.settings.imagePullSecrets }}
