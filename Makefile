@@ -120,6 +120,12 @@ wait:
 		--namespace ${NAMESPACE} \
 		--timeout 10m
 
+deployed-image:
+	kubectl get pods \
+		--namespace ${NAMESPACE} \
+		--selector app.kubernetes.io/name=${CHART} \
+		--output jsonpath='{range .items[*]}{.spec.containers[*].image}{" "}{.status.containerStatuses[*].imageID}{"\n"}{end}'
+
 wait-for-daemonset:
 	kubectl wait daemonset/${CHART} \
 		--for=jsonpath='{.status.numberReady}'=1 \

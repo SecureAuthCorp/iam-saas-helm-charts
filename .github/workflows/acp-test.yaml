@@ -55,7 +55,7 @@ jobs:
       - name: Verify
         run: make verify
       - name: Deployed image
-        run: kubectl get pods --namespace acp-system --selector app.kubernetes.io/name=acp --output jsonpath='{range .items[*]}{.spec.containers[*].image}{" "}{.status.containerStatuses[*].imageID}{"\n"}{end}'
+        run: make deployed-image
       - name: Helm tests
         run: make helm-test
       - name: Debug
