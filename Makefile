@@ -24,7 +24,7 @@ ACP_IMAGE_TAG ?=
 # main targets
 prepare: create-cluster install-base-stack
 
-# the stack with the newest published acp chart older than ./charts/acp, as the upgrade test's starting point
+# the upgrade test's starting point: the newest published acp chart older than ./charts/acp, on its own appVersion (ACP_IMAGE_TAG applies to the upgrade only)
 prepare-published: create-cluster install-published-stack
 
 upgrade: clean-helm install-base-stack
