@@ -53,7 +53,7 @@ install-base-stack:
 	helm dependency update .kube-acp-stack-test
 	helm upgrade acp .kube-acp-stack-test \
 		--values ./tests/config/kube-acp-stack.yaml \
-		${if ${ACP_IMAGE_TAG},--set-string acp.image.tag='${ACP_IMAGE_TAG}'} \
+		${if ${strip ${ACP_IMAGE_TAG}},--set-string acp.image.tag=${strip ${ACP_IMAGE_TAG}}} \
 		--namespace ${NAMESPACE} \
 		--timeout 10m \
 		--install
