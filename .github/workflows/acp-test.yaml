@@ -43,6 +43,7 @@ jobs:
   test:
     name: Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
@@ -55,17 +56,22 @@ jobs:
       - name: Verify
         run: make verify
       - name: Deployed image
+        if: ${{ !cancelled() }}
         run: make deployed-image
       - name: Helm tests
         run: make helm-test
       - name: Debug
         if: failure()
         run: make debug
-      - name: Post failure to a Slack channel
-        uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
-        if: failure() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+  notify:
+    name: Post failure to a Slack channel
+    needs: [lint, test]
+    if: failure() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
         with:
           channel-id: 'C06M870PLRJ'
-          slack-message: "acp chart nightly test failed on `${{ env.ACP_IMAGE_TAG }}`: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          slack-message: "acp chart test (${{ github.event_name }}) failed on `${{ env.ACP_IMAGE_TAG || 'chart appVersion' }}` (lint: ${{ needs.lint.result }}, test: ${{ needs.test.result }}): ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
