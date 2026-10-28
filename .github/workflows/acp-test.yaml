@@ -61,3 +61,11 @@ jobs:
       - name: Debug
         if: failure()
         run: make debug
+      - name: Post failure to a Slack channel
+        uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
+        if: failure() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        with:
+          channel-id: 'C06M870PLRJ'
+          slack-message: "acp chart nightly test failed on `${{ env.ACP_IMAGE_TAG }}`: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
