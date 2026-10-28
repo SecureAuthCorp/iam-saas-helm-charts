@@ -91,7 +91,7 @@ jobs:
       - name: Upgrade to the local acp chart
         run: make upgrade
       - name: Verify upgraded release
-        run: make verify release-info
+        run: make rollout-status release-info
       - name: Helm tests
         run: make helm-test
       - name: Debug

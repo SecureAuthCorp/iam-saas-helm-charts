@@ -19,19 +19,15 @@ export ACP_VERSION
 # ACP image tag deployed by the tests; empty = chart appVersion, latest = ciam-core dev tip
 ACP_IMAGE_TAG ?=
 
-# published chart repo the upgrade test starts from before upgrading to ./charts/acp
-ACP_CHART_REPO ?= https://charts.cloudentity.io
-ACP_CHART_REPO_NAME ?= acp-published
-export ACP_CHART_REPO
-
 ### TARGETS ###
 
 # main targets
 prepare: create-cluster install-base-stack
 
+# the stack with the newest published acp chart not newer than ./charts/acp, as the upgrade test's starting point
 prepare-published: create-cluster install-published-stack
 
-upgrade: clean-helm install-base-stack rollout-status
+upgrade: clean-helm install-base-stack
 
 install: helm-install
 
@@ -55,36 +51,17 @@ create-cluster:
 		--docker-username=${DOCKER_USER} \
 		--docker-password=${DOCKER_PWD}
 
-install-base-stack:
+install-base-stack: ACP_DEPENDENCY_EDIT = (.dependencies[]|select(.name == "acp").repository) |= "file://../charts/acp"
+install-base-stack: ACP_IMAGE_TAG_SET = ${if ${strip ${ACP_IMAGE_TAG}},--set-string acp.image.tag=${strip ${ACP_IMAGE_TAG}}}
+install-published-stack: ACP_DEPENDENCY_EDIT = (.dependencies[]|select(.name == "acp").version) |= "<=" + .
+install-base-stack install-published-stack:
 	mkdir --parents .kube-acp-stack-test
 	cp ./charts/kube-acp-stack/Chart.yaml ./charts/kube-acp-stack/values.yaml .kube-acp-stack-test/
-	yq eval '(.dependencies[]|select(.name == "acp").repository) |= "file://../charts/acp"' .kube-acp-stack-test/Chart.yaml --inplace
+	yq eval '${ACP_DEPENDENCY_EDIT}' .kube-acp-stack-test/Chart.yaml --inplace
 	helm dependency update .kube-acp-stack-test
 	helm upgrade acp .kube-acp-stack-test \
 		--values ./tests/config/kube-acp-stack.yaml \
-		${if ${strip ${ACP_IMAGE_TAG}},--set-string acp.image.tag=${strip ${ACP_IMAGE_TAG}}} \
-		--namespace ${NAMESPACE} \
-		--timeout 10m \
-		--install
-
-add-chart-repo:
-	helm repo add $(ACP_CHART_REPO_NAME) $(ACP_CHART_REPO) --force-update
-	helm repo update $(ACP_CHART_REPO_NAME)
-
-install-published-stack: add-chart-repo
-	mkdir --parents .kube-acp-stack-test
-	cp ./charts/kube-acp-stack/Chart.yaml ./charts/kube-acp-stack/values.yaml .kube-acp-stack-test/
-	PUBLISHED_ACP_VERSION=$$(helm search repo $(ACP_CHART_REPO_NAME)/acp --versions --output json \
-		--version "<=$$(yq '.version' ./charts/acp/Chart.yaml)" \
-		| jq --raw-output 'map(select(.name == "$(ACP_CHART_REPO_NAME)/acp")) | first | .version') \
-	&& test "$$PUBLISHED_ACP_VERSION" != null \
-	&& echo "published acp chart version: $$PUBLISHED_ACP_VERSION" \
-	&& PUBLISHED_ACP_VERSION=$$PUBLISHED_ACP_VERSION yq eval \
-		'(.dependencies[]|select(.name == "acp")) |= (.repository = strenv(ACP_CHART_REPO) | .version = strenv(PUBLISHED_ACP_VERSION))' \
-		.kube-acp-stack-test/Chart.yaml --inplace
-	helm dependency update .kube-acp-stack-test
-	helm upgrade acp .kube-acp-stack-test \
-		--values ./tests/config/kube-acp-stack.yaml \
+		${ACP_IMAGE_TAG_SET} \
 		--namespace ${NAMESPACE} \
 		--timeout 10m \
 		--install
