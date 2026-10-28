@@ -66,12 +66,12 @@ jobs:
   notify:
     name: Post failure to a Slack channel
     needs: [lint, test]
-    if: failure() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    if: always() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
     steps:
       - uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
         with:
           channel-id: 'C06M870PLRJ'
-          slack-message: "acp chart test (${{ github.event_name }}) failed on `${{ env.ACP_IMAGE_TAG || 'chart appVersion' }}` (lint: ${{ needs.lint.result }}, test: ${{ needs.test.result }}): ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          slack-message: "acp chart test (${{ github.event_name }}) did not pass on `${{ env.ACP_IMAGE_TAG || 'chart appVersion' }}` (lint: ${{ needs.lint.result }}, test: ${{ needs.test.result }}): ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
