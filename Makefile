@@ -24,7 +24,7 @@ ACP_IMAGE_TAG ?=
 # main targets
 prepare: create-cluster install-base-stack
 
-# the stack with the newest published acp chart not newer than ./charts/acp, as the upgrade test's starting point
+# the stack with the newest published acp chart older than ./charts/acp, as the upgrade test's starting point
 prepare-published: create-cluster install-published-stack
 
 upgrade: clean-helm install-base-stack
@@ -53,7 +53,7 @@ create-cluster:
 
 install-base-stack: ACP_DEPENDENCY_EDIT = (.dependencies[]|select(.name == "acp").repository) |= "file://../charts/acp"
 install-base-stack: ACP_IMAGE_TAG_SET = ${if ${strip ${ACP_IMAGE_TAG}},--set-string acp.image.tag=${strip ${ACP_IMAGE_TAG}}}
-install-published-stack: ACP_DEPENDENCY_EDIT = (.dependencies[]|select(.name == "acp").version) |= "<=" + .
+install-published-stack: ACP_DEPENDENCY_EDIT = (.dependencies[]|select(.name == "acp").version) |= "<" + .
 install-base-stack install-published-stack:
 	mkdir --parents .kube-acp-stack-test
 	cp ./charts/kube-acp-stack/Chart.yaml ./charts/kube-acp-stack/values.yaml .kube-acp-stack-test/
