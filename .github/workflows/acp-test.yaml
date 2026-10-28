@@ -13,9 +13,19 @@ on:
     - 'charts/kube-acp-stack/**'
     - 'charts/acp/**'
     - 'tests/**'
+    - 'Makefile'
+    - '.github/workflows/acp-test.yaml'
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+    inputs:
+      acp_image_tag:
+        description: 'ACP image tag to deploy; empty = chart appVersion, latest = ciam-core dev tip'
+        default: 'latest'
 
 env:
   CHART: acp
+  ACP_IMAGE_TAG: ${{ github.event_name == 'schedule' && 'latest' || inputs.acp_image_tag }}
 
 jobs:
   lint:
@@ -44,6 +54,8 @@ jobs:
       # skipping `make install` here as install-base-stack already contains `acp` chart
       - name: Verify
         run: make verify
+      - name: Deployed image
+        run: kubectl get pods --namespace acp-system --selector app.kubernetes.io/name=acp --output jsonpath='{range .items[*]}{.spec.containers[*].image}{" "}{.status.containerStatuses[*].imageID}{"\n"}{end}'
       - name: Helm tests
         run: make helm-test
       - name: Debug
