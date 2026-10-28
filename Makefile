@@ -16,6 +16,9 @@ ISTIO_VERSION ?= 1.26.0
 ACP_VERSION ?= 2.29.0
 export ACP_VERSION
 
+# ACP image tag deployed by the tests; empty = chart appVersion, latest = ciam-core dev tip
+ACP_IMAGE_TAG ?=
+
 ### TARGETS ###
 
 # main targets
@@ -50,6 +53,7 @@ install-base-stack:
 	helm dependency update .kube-acp-stack-test
 	helm upgrade acp .kube-acp-stack-test \
 		--values ./tests/config/kube-acp-stack.yaml \
+		$(if $(ACP_IMAGE_TAG),--set acp.image.tag=$(ACP_IMAGE_TAG)) \
 		--namespace ${NAMESPACE} \
 		--timeout 10m \
 		--install
