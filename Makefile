@@ -16,6 +16,9 @@ ISTIO_VERSION ?= 1.26.0
 ACP_VERSION ?= 2.29.0
 export ACP_VERSION
 
+# ACP image tag deployed by the tests; empty = chart appVersion, latest = ciam-core dev tip
+ACP_IMAGE_TAG ?=
+
 ### TARGETS ###
 
 # main targets
@@ -50,6 +53,7 @@ install-base-stack:
 	helm dependency update .kube-acp-stack-test
 	helm upgrade acp .kube-acp-stack-test \
 		--values ./tests/config/kube-acp-stack.yaml \
+		${if ${strip ${ACP_IMAGE_TAG}},--set-string acp.image.tag=${strip ${ACP_IMAGE_TAG}}} \
 		--namespace ${NAMESPACE} \
 		--timeout 10m \
 		--install
@@ -115,6 +119,12 @@ wait:
 		--for condition=available \
 		--namespace ${NAMESPACE} \
 		--timeout 10m
+
+deployed-image:
+	kubectl get pods \
+		--namespace ${NAMESPACE} \
+		--selector app.kubernetes.io/name=${CHART} \
+		--output jsonpath='{range .items[*]}{.spec.containers[*].image}{" "}{.status.containerStatuses[*].imageID}{"\n"}{end}'
 
 wait-for-daemonset:
 	kubectl wait daemonset/${CHART} \
