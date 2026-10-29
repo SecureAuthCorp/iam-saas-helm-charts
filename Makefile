@@ -24,6 +24,11 @@ ACP_IMAGE_TAG ?=
 # main targets
 prepare: create-cluster install-base-stack
 
+# the upgrade test's starting point: the newest published acp chart older than ./charts/acp, on its own appVersion (ACP_IMAGE_TAG applies to the upgrade only)
+prepare-published: create-cluster install-published-stack
+
+upgrade: clean-helm install-base-stack
+
 install: helm-install
 
 uninstall: helm-uninstall
@@ -46,14 +51,17 @@ create-cluster:
 		--docker-username=${DOCKER_USER} \
 		--docker-password=${DOCKER_PWD}
 
-install-base-stack:
+install-base-stack: ACP_DEPENDENCY_EDIT = (.dependencies[]|select(.name == "acp").repository) |= "file://../charts/acp"
+install-base-stack: ACP_IMAGE_TAG_SET = ${if ${strip ${ACP_IMAGE_TAG}},--set-string acp.image.tag=${strip ${ACP_IMAGE_TAG}}}
+install-published-stack: ACP_DEPENDENCY_EDIT = (.dependencies[]|select(.name == "acp").version) |= "<" + .
+install-base-stack install-published-stack:
 	mkdir --parents .kube-acp-stack-test
 	cp ./charts/kube-acp-stack/Chart.yaml ./charts/kube-acp-stack/values.yaml .kube-acp-stack-test/
-	yq eval '(.dependencies[]|select(.name == "acp").repository) |= "file://../charts/acp"' .kube-acp-stack-test/Chart.yaml --inplace
+	yq eval '${ACP_DEPENDENCY_EDIT}' .kube-acp-stack-test/Chart.yaml --inplace
 	helm dependency update .kube-acp-stack-test
 	helm upgrade acp .kube-acp-stack-test \
 		--values ./tests/config/kube-acp-stack.yaml \
-		${if ${strip ${ACP_IMAGE_TAG}},--set-string acp.image.tag=${strip ${ACP_IMAGE_TAG}}} \
+		${ACP_IMAGE_TAG_SET} \
 		--namespace ${NAMESPACE} \
 		--timeout 10m \
 		--install
@@ -131,6 +139,17 @@ wait-for-daemonset:
 		--for=jsonpath='{.status.numberReady}'=1 \
 		--namespace ${NAMESPACE} \
 		--timeout 10m
+
+rollout-status:
+	kubectl rollout status deploy/${CHART} \
+		--namespace ${NAMESPACE} \
+		--timeout 10m
+
+release-info: deployed-image
+	helm history ${CHART} --namespace ${NAMESPACE}
+	kubectl get deploy/${CHART} \
+		--namespace ${NAMESPACE} \
+		--output jsonpath='{.metadata.labels.helm\.sh/chart}{"\n"}'
 
 debug:
 	-kubectl get all --all-namespaces
