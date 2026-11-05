@@ -1,0 +1,8 @@
+{{- $acp := .Values.acp }}
+{{- $certificate := $acp.certificate | default dict }}
+{{- $certManager := $acp.certManager | default dict }}
+{{- if and $acp.enabled $certificate.create (not $certManager.enabled) (not $acp.tlsDisabled) (not (and $certificate.cert $certificate.key)) }}
+WARNING: ACP's TLS secret contains the mock certificate shipped with the acp chart.
+Its private key is publicly available, so use it only for local environments.
+For anything else, set acp.certificate.cert and acp.certificate.key, or set acp.certManager.enabled=true.
+{{- end -}}
