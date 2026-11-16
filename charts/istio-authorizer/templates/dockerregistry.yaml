@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: Secret
-type: kubernetes.io/dockerconfigjson
-metadata:
-  name: docker.secureauth.com
-data:
-  .dockerconfigjson: eyJhdXRocyI6eyJkb2NrZXIuc2VjdXJlYXV0aC5jb20iOnsidXNlcm5hbWUiOiJhdXRob3JpemVycyIsInBhc3N3b3JkIjoiek0zRjMzSWZWWWx5Q3BCZUVpUkxYN0tpc0RHU2plUVkiLCJhdXRoIjoiWVhWMGFHOXlhWHBsY25NNmVrMHpSak16U1daV1dXeDVRM0JDWlVWcFVreFlOMHRwYzBSSFUycGxVVms9In19fQ==

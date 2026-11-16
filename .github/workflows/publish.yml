@@ -73,19 +73,3 @@ jobs:
 
       - name: Publish
         run: jf rt u *.tgz acp-helm-charts
-
-  istio-authorizer:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
-    steps:
-      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
-
-      - name: Helm package charts/istio-authorizer
-        run: helm package charts/istio-authorizer
-
-      - uses: jfrog/setup-jfrog-cli@deda456d982fc5e9a7a020b63eb0d2968aedd33e # v5
-        env:
-          JF_ENV_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
-
-      - name: Publish
-        run: jf rt u *.tgz acp-helm-charts
