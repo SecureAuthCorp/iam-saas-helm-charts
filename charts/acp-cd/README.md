@@ -65,7 +65,7 @@ You may similarly use the above configuration commands on each chart [dependency
 
 ### Docker Pull Credentials
 
-Istio authorizer defines Pod that uses a Secret to pull an image from a private Docker registry, please refer to the documentation for that mechanism ([Pull an Image from a Private Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/))
+The acp-cd Job runs a Pod that uses a Secret to pull an image from a private Docker registry, please refer to the documentation for that mechanism ([Pull an Image from a Private Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/))
 
 To manually configure Docker credentials, first create a Secret by providing credentials on the command line:
 
