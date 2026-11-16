@@ -122,12 +122,6 @@ deployed-image:
 		--selector app.kubernetes.io/name=${CHART} \
 		--output jsonpath='{range .items[*]}{.spec.containers[*].image}{" "}{.status.containerStatuses[*].imageID}{"\n"}{end}'
 
-wait-for-daemonset:
-	kubectl wait daemonset/${CHART} \
-		--for=jsonpath='{.status.numberReady}'=1 \
-		--namespace ${NAMESPACE} \
-		--timeout 10m
-
 rollout-status:
 	kubectl rollout status deploy/${CHART} \
 		--namespace ${NAMESPACE} \
