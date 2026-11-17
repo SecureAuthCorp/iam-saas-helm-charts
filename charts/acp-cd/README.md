@@ -5,7 +5,7 @@
 ACP-CD provides a mechanism allowing you to declaratively manage the configuration of your ACP data.
 It allows to set up policies, APIs, clients, services, and all other features of ACP by defining those in a file.
 It can be used to set up a GitOps-like pipeline, or ad-hoc import, easing the process.
-This chart bootstraps [acp-cd](https://docs.authorization.cloudentity.com/guides/developer/protect/istio/configuration_import/) 
+This chart bootstraps [acp-cd](https://docs.secureauth.com/iam/declarative-configuration-import-for-secureauth) 
 deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
 ## Prerequisites
@@ -65,7 +65,7 @@ You may similarly use the above configuration commands on each chart [dependency
 
 ### Docker Pull Credentials
 
-Istio authorizer defines Pod that uses a Secret to pull an image from a private Docker registry, please refer to the documentation for that mechanism ([Pull an Image from a Private Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/))
+The acp-cd Job runs a Pod that uses a Secret to pull an image from a private Docker registry, please refer to the documentation for that mechanism ([Pull an Image from a Private Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/))
 
 To manually configure Docker credentials, first create a Secret by providing credentials on the command line:
 

@@ -122,7 +122,7 @@ mode: update
 clientCredentials:
   ## Specifies whether a kubernetes secret should be created from the provided clientID and clientSecret.
   ## For production setup please create secret manually and use name
-  ## parameter to integrate with istio-authorizer
+  ## parameter to reference it
   ##
   create: true
 

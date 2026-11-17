@@ -29,7 +29,7 @@ acp:
       clients:
         - tenant_id: system
           authorization_server_id: system
-          client_id: istio_authorizer_gateway_client
+          client_id: authorizer_test_gateway_client
           client_secret: 5c8f3f5b353ba0f55c8f3f5b353ba0f5
           client_name: Authorizer Test Gateway Client
           token_endpoint_auth_method: client_secret_post
@@ -43,10 +43,10 @@ acp:
       gateways:
         - tenant_id: system
           authorization_server_id: system
-          id: istio_authorizer_test_gateway
-          name: Istio authorizer test gateway
-          type: istio
-          client_id: istio_authorizer_gateway_client
+          id: authorizer_test_gateway
+          name: Authorizer test gateway
+          type: standalone
+          client_id: authorizer_test_gateway_client
           last_active: "2021-07-15T12:39:56.099Z"
       policies:
         - tenant_id: system
@@ -58,10 +58,10 @@ acp:
           validators:
             - name: "false"
       services:
-        - id: '{{ encServiceID "spiffe://cluster.local/ns/default/sa/httpbin" }}'
+        - id: httpbin
           tenant_id: system
           authorization_server_id: system
-          gateway_id: istio_authorizer_test_gateway
+          gateway_id: authorizer_test_gateway
           name: Httpbin test service
           apis:
             - method: GET
@@ -74,10 +74,10 @@ acp:
       gateway_api_groups:
         - tenant_id: system
           server_id: system
-          service_id: '{{ encServiceID "spiffe://cluster.local/ns/default/sa/httpbin" }}'
-          gateway_id: istio_authorizer_test_gateway
+          service_id: httpbin
+          gateway_id: authorizer_test_gateway
           name: "default/httpbin"
-          id: '{{ encSpiffeID "spiffe://cluster.local/ns/default/sa/httpbin" }}'
+          id: httpbin
           apis:
             - method: GET
               path: /anything
