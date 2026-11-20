@@ -8,6 +8,10 @@
   ],
   "timezone": "Etc/UTC",
   "labels": ["dependencies", "renovate"],
+  "ignoreDeps": [
+    "docker.secureauth.com/node-env",
+    "docker.secureauth.com/rego-env"
+  ],
   "packageRules": [
     {
       "matchManagers": ["github-actions"],
